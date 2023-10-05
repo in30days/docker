@@ -56,7 +56,7 @@ languages:
         pre: twitter
         weight: 10
       - name: GitHub
-        url: "https://github.com/in30days"
+        url: "https://github.com/in30days/docker"
         pre: github
         weight: 20
     
@@ -64,14 +64,18 @@ languages:
       - name: Week 1
         weight: 10
         params:
-          description: In the first week, you learn about basic concepts .
+          description: In the first week, you learn about history of containerization, basics of containerization, and getting the Docker engine installed on Linux and Windows. 
         
+      - name: Week 2
+        weight: 20
+        params:
+          description: In the first week, you learn about history of containerization, basics of containerization.         
 params:
   logo: "/images/logo-main.png"
   logo_mark: "/images/logo-main.png"
   author: "ravikanth"
-  github: "#"
+  github: "https://github.com/in30days/docker"
   ogimage: "/images/og.png"
-  sitename: "template"
+  sitename: "Docker"
   twitter: "https://twitter.com/in30daysorg"
     
