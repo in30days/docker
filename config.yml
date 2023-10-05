@@ -1,0 +1,77 @@
+baseURL: "https://docker.in30days.org"
+languageCode: "en-us"
+
+enableEmoji: true
+enableGitInfo: true
+enableRobotsTXT: true
+canonifyURLs: true
+
+outputFormats:
+  search:
+    baseName: search
+    isPlainText: true
+    mediaType: application/json
+outputs:
+  home:
+    - HTML
+    - RSS
+    - search
+
+permalinks:
+  lessons: "/:slug"
+
+markup:
+  highlight:
+    style: nord
+  goldmark:
+    renderer:
+      unsafe: true
+      
+defaultContentLanguage: "en"
+        
+languages:
+  en:
+    title: 'Docker'
+    description: ""
+    copyright: "Copyright © 2023 All Rights Reserved"
+    languageName: "En"
+    contentDir: "content/en"
+    weight: 1
+    menu:
+      navbar:
+      - name: Home
+        url: "/"
+        weight: 10
+        pre: play-circle
+      - name: About
+        url: "/page/"
+        weight: 20
+      - name: Contact
+        url: "/contact/"
+        weight: 30
+
+      social:
+      - name: Twitter
+        url: "https://twitter.com/in30daysorg"
+        pre: twitter
+        weight: 10
+      - name: GitHub
+        url: "https://github.com/in30days"
+        pre: github
+        weight: 20
+    
+      docs:
+      - name: Week 1
+        weight: 10
+        params:
+          description: In the first week, you learn about basic concepts .
+        
+params:
+  logo: "/images/logo-main.png"
+  logo_mark: "/images/logo-main.png"
+  author: "ravikanth"
+  github: "#"
+  ogimage: "/images/og.png"
+  sitename: "template"
+  twitter: "https://twitter.com/in30daysorg"
+    

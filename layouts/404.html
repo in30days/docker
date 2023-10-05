@@ -1,0 +1,14 @@
+{{ define "main"}}
+<section class="overflow-hidden dark:bg-black">
+  <div class="px-6 lg:px-8 py-20 lg:py-32">
+    <div class="max-w-3xl mx-auto px-6 lg:px-8">
+      <h1 class="text-center text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-white">{{ .Title }}</h1>
+    <div class="mt-16 text-center">
+      <a href="{{ "/" | relLangURL }}"
+        class="inline-block tracking-wide transition rounded-full focus:outline-none font-medium px-6 py-2 border border-black hover:bg-black hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black">
+        Go Home
+      </a>
+    </div>
+  </div>
+</section>
+{{ end }}

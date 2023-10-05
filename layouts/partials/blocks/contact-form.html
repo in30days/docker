@@ -1,0 +1,9 @@
+<div class="mt-14">
+  {{ with .heading }}
+    <h2 class="text-2xl font-bold font-display text-slate-900 mb-9">{{ . }}</h2>
+  {{ end }}
+  <div>
+    {{ partial "components/form-netlify.html" . }}
+  </div>
+</div>
+

@@ -1,0 +1,26 @@
+<div class="grid grid-cols-1 gap-7 md:gap-x-12 md:gap-y-14 md:grid-cols-2">
+  {{ range .cards }}
+    <div class="relative rounded-xl p-6 shadow-xl shadow-slate-200 bg-sky-500 group overflow-hidden">
+      {{ if .icon }}
+        <div class="absolute bottom-0 right-2 text-sky-400 svg-full w-36 h-36">
+          {{ $icon := printf "%s%s%s" "icons/" .icon ".svg" }}
+          {{ if templates.Exists (printf "%s%s" "partials/" $icon ) }}
+            {{ partial $icon }}
+          {{ end }}            
+        </div>
+      {{ end }}
+      <div class="relative">
+        <h2 class="font-display font-bold text-xl text-white">{{ .heading }}</h2>
+        <p class="mt-2 text-base text-slate-100 leading-relaxed max-w-[18rem]">{{ .copy }}</p>
+        {{ with .button }}
+          <div class="inline-block mt-4 rounded-md bg-sky-600 px-2.5 py-1.5 text-sm font-semibold font-display text-white group-hover:bg-sky-700">{{ .text }}</div>
+        {{ end }}
+      </div>
+      {{ with .button }}
+        <a href="{{ .url | relURL }}" class="absolute inset-0" aria-label="{{ .text }}"></a>
+      {{ end }}
+    </div>
+  {{ end }}
+</div>
+
+

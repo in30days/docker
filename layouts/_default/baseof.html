@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="{{ .Language.Lang }}" class="scroll-smooth">
+<head>
+    {{ partial "head.html" . }}
+</head>
+<body x-data="{ docs: false, mobile: false }" class="relative">
+  {{ if .Site.Params.banner.text }}
+      {{ partialCached "banner.html" . }}
+  {{ end }}
+  {{ partial "navbar.html" . }}
+  <div class="relative mx-auto flex max-w-7xl justify-center px-2 lg:px-8">
+    <div class="hidden lg:relative lg:block lg:flex-none">
+      <div class="sticky top-[4.5rem] -ml-0.5 w-64 overflow-y-auto overflow-x-hidden pt-16 pl-0.5 pr-8 xl:w-72 xl:pr-16">
+        <nav class="text-sm">
+          <ul class="space-y-9">
+            {{ $currentPage := . }}
+            {{ range .Site.Menus.docs }}
+              <li>
+                {{ if .HasChildren }}
+                  <h2 class="font-display font-semibold text-slate-900">{{ .Name }}</h2>
+                  <ul class="mt-4 space-y-4 border-slate-200">
+                    {{ range .Children }}
+                      <li class="relative">
+                        <a class="block w-full pl-3.5 before:pointer-events-none before:absolute before:left-0.5 before:top-1/2 before:h-0.5 before:w-1.5 before:-translate-y-1/2 
+                        {{- if $currentPage.IsMenuCurrent .Menu . }} text-sky-500 before:bg-sky-500{{- else }} text-slate-500 before:hidden before:bg-slate-300 hover:text-slate-900 hover:before:block{{- end }}" href="{{ .URL | relLangURL }}">{{ .Name }}</a>
+                      </li>
+                    {{ end }}
+                  </ul>
+                {{ else }}
+                  <a class="block w-full pl-3.5 before:pointer-events-none before:absolute before:left-0.5 before:top-1/2 before:h-0.5 before:w-1.5 before:-translate-y-1/2 
+                  {{- if $currentPage.IsMenuCurrent .Menu . }} text-sky-500 before:bg-sky-500{{- else }} text-slate-500 before:hidden before:bg-slate-300 hover:text-slate-900 hover:before:block{{- end }}" href="{{ .URL | relLangURL }}">{{ .Name }}</a>
+                {{ end }}
+              </li>
+            {{ end }}
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="min-w-0 flex-auto px-4 pt-16 lg:max-w-none lg:pl-8 lg:pr-0 {{ if eq .Type "docs" }} max-w-2xl xl:px-16{{ else }} max-w-4xl xl:pl-16{{ end }}">
+      {{ block "main" . }}{{ end }}
+    </div>
+    {{ if eq .Type "docs" }}
+      <div class="hidden xl:sticky xl:top-[4.5rem] xl:-mr-6 xl:block xl:h-[calc(100vh-4.5rem)] xl:flex-none xl:overflow-y-auto xl:py-16 xl:pr-6">
+        <nav aria-labelledby="on-this-page-title" class="w-56">
+          <h2 id="on-this-page-title" class="font-display text-sm font-semibold text-slate-900">{{ i18n "toc" }}</h2>
+          {{ .TableOfContents }}
+        </nav>
+      </div>
+    {{ end }}
+  </div>
+  {{ partialCached "footer.html" . }}
+  {{ partial "nav-docs.html" . }}
+</body>
+</html>

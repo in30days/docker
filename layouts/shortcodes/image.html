@@ -1,0 +1,35 @@
+{{ $src := .Get "src" }}
+{{ $alt := .Get "alt" }}
+{{ $class := .Get "class" | default "" }}
+{{ $sizes := .Get "sizes" | default "100vw" }}
+{{ $widths := .Get "widths" | default (slice 320 640 1024) }}
+
+{{ $isSvg := strings.HasSuffix $src ".svg" }}
+{{ $isRemote := strings.HasPrefix $src "http://" }}{{/* Assuming both http and https are remote links */}}
+{{ $isRemote = or $isRemote (strings.HasPrefix $src "https://") }}
+
+{{ if $isRemote }}
+  <img src="{{ $src }}" alt="{{ $alt }}" class="{{ $class }}" loading="lazy" />
+{{ else if $isSvg }}
+  {{ with resources.GetMatch $src }}  
+    <img src="{{ .RelPermalink }}" alt="{{ $alt }}" class="{{ $class }}" loading="lazy" />
+  {{ end }}
+{{ else }}
+  {{ with resources.GetMatch $src }}
+    {{ $imageResource := . }}
+    {{ $optimizedImages := slice }}
+
+    {{ range $widths }}
+      {{ $resized := $imageResource.Resize (print . "x") }}
+      {{ $optimizedImages = $optimizedImages | append $resized }}
+    {{ end }}
+
+    <picture>
+      {{ range $i, $srcset := $optimizedImages }}
+      {{ $mediaQuery := cond (eq $i (sub (len $widths) 1)) (print "(min-width: " (index $widths $i) "px)") (print "(max-width: " (sub (int (index $widths (add $i 1))) 1) "px)") }}
+        <source srcset="{{ $srcset.RelPermalink }}" media="{{ $mediaQuery }}" sizes="{{ $sizes }}">
+      {{ end }}
+      <img src="{{ (index $optimizedImages 0).RelPermalink }}" alt="{{ $alt }}" class="{{ $class }}" loading="lazy" />
+    </picture>
+  {{ end }}
+{{ end }}

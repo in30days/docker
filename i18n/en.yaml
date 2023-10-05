@@ -1,0 +1,29 @@
+name:
+  other: "Name"
+email:
+  other: "Email"
+message:
+  other: "Message"
+send_message:
+  other: "Send message"
+message_sent:
+  other: "The message has been successfully sent!"
+phone:
+  other: "Phone"
+previous:
+  other: "Previous"
+next:
+  other: "Next"
+no_results:
+  other: "No results found"
+search:
+  other: "Search"
+toc:
+  other: "On this page"
+created:
+  other: "Created"  
+updated:
+  other: "Updated"  
+share:
+  other: "Share"  
+  

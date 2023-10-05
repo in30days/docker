@@ -1,0 +1,30 @@
+{{define "main"}}
+
+{{ $currentPage := . }}
+<div>
+  <div>
+    <p class="font-display text-sm font-bold text-sky-500 mb-1">
+      {{ range .Site.Menus.docs }}
+        {{ if .HasChildren }}
+          {{ $category := .Name }}
+          {{ range .Children }}
+            {{ if $currentPage.IsMenuCurrent .Menu . }}{{ $category }}{{ end }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    </p>
+    <h1 class="font-display text-3xl tracking-tight text-slate-900 font-bold">{{ .Title }}</h1>
+    {{ with .Params.subtitle }}
+    <p class="text-lg leading-relaxed text-slate-500 mt-8 max-w-2xl">{{ . }}</p>
+    {{ end }}
+  </div>
+  <hr class="border-slate-200 mt-9 mb-14">
+
+  {{ $blocks := .Params.blocks }}
+  {{ range $blocks }}
+    {{ $file := (printf "%s%s%s" "blocks/" .block ".html" ) }}
+    {{ partial $file . }}
+  {{ end }}
+
+</div>
+{{ end }}

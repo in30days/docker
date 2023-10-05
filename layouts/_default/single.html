@@ -1,0 +1,90 @@
+{{define "main"}}
+{{ $currentPage := . }}
+<article>
+  <header class="mb-9">
+    <p class="font-display text-sm font-semibold text-sky-500 mb-1">
+      {{ range .Site.Menus.docs }}
+        {{ if .HasChildren }}
+          {{ $category := .Name }}
+          {{ range .Children }}
+            {{ if $currentPage.IsMenuCurrent .Menu . }}{{ $category }}{{ end }}
+          {{ end }}
+        {{ end }}
+      {{ end }}      
+    </p>
+    <h1 class="font-display text-3xl tracking-tight text-slate-900 font-bold">{{ .Title }}</h1>
+    {{ $authorname := .Params.author }}
+    {{ with $.Site.Data.authors }}
+      {{ $author := index (where . "username" $authorname) 0 }}
+      {{ with $author }}
+        <div class="flex space-x-4 mt-4">
+          <div class="flex-none">
+              <img class="rounded-full" width="40" height="40" src="{{ .image | absURL }}" alt="{{ .name }}">
+          </div>
+          <div class="flex-1">
+              <p class="font-display font-semibold text-sm text-slate-900">{{ .name }}</p>
+              <p class="text-sm text-slate-500">{{ i18n "created" }}: {{ dateFormat "Jan 02, 2006" $.Page.Date }} - {{ i18n "updated" }}: {{ dateFormat "Jan 02, 2006" $.Page.Lastmod }}</p>
+          </div>
+          <div class="flex-none">
+            <a href="#share" class="rounded-md bg-sky-50 px-2.5 py-1.5 text-sm font-semibold font-display text-sky-500 shadow-sm hover:bg-sky-100">{{ i18n "share" }}</a>
+          </div>
+        </div>
+      {{ end }}
+    {{ end }}
+
+    {{ with .Params.subtitle }}
+    <p class="text-lg text-slate-600 mt-9">{{ . }}</p>
+    {{ end }}
+  </header>
+  <div class="prose prose-slate max-w-none prose-headings:scroll-mt-28 prose-headings:font-display prose-headings:font-bold lg:prose-headings:scroll-mt-[5rem] prose-a:font-semibold hover:prose-a:text-sky-500 prose-pre:rounded-xl prose-pre:bg-slate-900 prose-pre:shadow-lg">
+    {{ .Content }}
+  </div>
+</article>
+<div id="share" class="flex space-x-4 mt-12 justify-center scroll-mt-[8.5rem]">
+  {{ partial "share.html" . }}
+</div>
+
+{{ $currentPage := . }}
+{{ $menuItems := slice }} 
+{{ $previous := "" }}
+{{ $next := "" }}
+
+{{ range .Site.Menus.docs }}
+    {{ if .HasChildren }}
+        {{ range .Children }}
+            {{ $menuItems = $menuItems | append . }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{ range $index, $menuItem := $menuItems }}
+    {{ if eq $menuItem.URL $currentPage.RelPermalink }}
+        {{ if gt $index 0 }}
+            {{ $previous = index $menuItems (sub $index 1) }}
+        {{ end }}
+        {{ if lt $index (sub (len $menuItems) 1) }}
+            {{ $next = index $menuItems (add $index 1) }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+<dl class="mt-12 sm:flex justify-between">
+  {{ if $previous }}
+  <div class="sm:pr-8">
+    <dt class="font-display text-sm font-semibold text-slate-900">{{ i18n "previous" }}</dt>
+    <dd class="mt-1">
+      <a class="text-sm text-slate-600 hover:text-slate-900" href="{{ $previous.URL | relLangURL }}"><span aria-hidden="true">←</span> {{ with $previous.Page }}{{ .Title }}{{ end }}</a>
+    </dd>
+  </div>
+  {{ end }}
+  {{ if $next }}
+  <div class="text-right sm:pl-8">
+    <dt class="font-display text-sm font-semibold text-slate-900">{{ i18n "next" }}</dt>
+    <dd class="mt-1">
+      <a class="text-sm text-slate-600 hover:text-slate-900" href="{{ $next.URL | relLangURL }}">{{ with $next.Page }}{{ .Title }}{{ end }} <span aria-hidden="true">→</span></a>
+    </dd>
+  </div>
+  {{ end }}
+</dl>
+{{end}}
+
